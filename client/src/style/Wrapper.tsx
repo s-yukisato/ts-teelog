@@ -4,8 +4,9 @@ import ButtonAppBar from './AppBar'
 import Footer from './Footer'
 
 const CContainer = styled("div")({
-  position: "relative",
   width: "100%",
+  display: "flex",
+  flexDirection: "column",
   minHeight: "100vh",
 });
 

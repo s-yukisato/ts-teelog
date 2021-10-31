@@ -88,13 +88,14 @@ type LinkProps = {
 
 const InternalLink: React.VFC<LinkProps> = ({ content }) => {
   return (
-    <ListItemButton
-      component={RouterLink}
-      to={content.link}
-      key={content.title}
-    >
-      <ListItemText primary={content.title} />
-    </ListItemButton>
+    // <ListItemButton
+    //   component={RouterLink}
+    //   to={content.link}
+    //   key={content.title}
+    // >
+    //   <ListItemText primary={content.title} />
+    // </ListItemButton>
+    <p>{content.title}</p>
   );
 };
 
@@ -112,16 +113,26 @@ const ExternalLink: React.VFC<LinkProps> = ({ content }) => {
 };
 
 const ContainerGrid = styled(Grid)(({ theme }) => ({
-  position: "absolute",
-  bottom: "0",
+  marginTop: "auto",
   width: "100%",
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: "space-evenly",
+  alignItems: "start",
   background: theme.palette.primary.dark,
+  [theme.breakpoints.between('mobile', 'tablet')]: {
+    gap: 12,
+    background: theme.palette.primary.main
+  },
+  [theme.breakpoints.between('tablet', 'laptop')]: {
+    gap: 6,
+    background: theme.palette.secondary.light,
+  },
+  [theme.breakpoints.up('laptop')]: {
+    gap: 3
+  }
 }));
 
 const ItemGrid = styled(Grid)(({ theme }) => ({
-  alignItem: "start",
+  alignItems: "center",
   textAlign: "center",
 }));
 
@@ -138,12 +149,12 @@ const Footer = React.memo(() => {
     <ThemeProvider theme={theme}>
       <ContainerGrid container>
         
-          <ItemGrid item xs={12} sm={6} md={3}>
+          <ItemGrid item>
             <img src={Logo} width="200px" height="200px" alt="Logo" />
           </ItemGrid>
           {listItems.map((listItem: IListItem) => (
-            <ItemGrid item xs={12} sm={6} md={3}>
-              <List sx={{ display: { xs: "none", sm: "inline-block" } }}>
+            <ItemGrid item>
+              <List sx={{ display: { mobile: "none", tablet: "block" } }}>
                 <ListItem key={listItem.title}>
                   <Typography variant="h6">{listItem.title}</Typography>
                 </ListItem>
@@ -162,7 +173,7 @@ const Footer = React.memo(() => {
           sx={{
             width: "100%",
             maxWidth: 360,
-            display: { xs: "block", sm: "none" },
+            display: { mobile: "block", tablet: "none" },
           }}
           component="nav"
         >
@@ -179,25 +190,9 @@ const Footer = React.memo(() => {
               <Collapse in={open[index]} timeout="auto" unmountOnExit>
                 {listItem.contents.map((item) =>
                   item.external ? (
-                    // <ListItemButton
-                    //   component={RouterLink}
-                    //   to={item.link}
-                    //   key={item.title}
-                    //   sx={{ pl: 4 }}
-                    // >
-                    //   <ListItemText primary={item.title} />
-                    // </ListItemButton>
-                    <p>{item.title}</p>
+                    <ExternalLink content={item} />
                   ) : (
-                    <ListItemButton
-                      target="_blank"
-                      component={"a"}
-                      href={item.link}
-                      key={item.title}
-                      sx={{ pl: 4 }}
-                    >
-                      <ListItemText primary={item.title} />
-                    </ListItemButton>
+                    <InternalLink content={item} />
                   )
                 )}
               </Collapse>
