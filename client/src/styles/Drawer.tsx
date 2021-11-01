@@ -29,8 +29,10 @@ const openedMixin = (theme: Theme): CSSObject => ({
   }),
   overflowX: "hidden",
 
+  color: "#b2c1d4",
+  backgroundColor: "#042a4a",
   "&::-webkit-scrollbar": {
-    width: "12px",
+    width: "6px",
     backgroundColor: "#2b2b2b",
   },
   "&::-webkit-scrollbar-track": {
@@ -67,9 +69,12 @@ const closedMixin = (theme: Theme): CSSObject => ({
   [theme.breakpoints.up("tablet")]: {
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
-
+  
+  color: "#b2c1d4",
+  backgroundColor: "#042a4a",
+  
   "&::-webkit-scrollbar": {
-    width: "12px",
+    width: "6px",
     backgroundColor: "#2b2b2b",
   },
   "&::-webkit-scrollbar-track": {
@@ -150,6 +155,7 @@ const Container = styled("div")({
   width: "100%",
   display: "flex",
   flexDirection: "column",
+  alignItems: "center",
   minHeight: "100vh",
 });
 

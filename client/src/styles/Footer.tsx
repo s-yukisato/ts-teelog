@@ -86,6 +86,12 @@ type LinkProps = {
   content: IItemContent;
 };
 
+const CListItemText = styled(ListItemText)(({ theme }) => ({
+  fontSize: "120px",
+  fontFamily: "Zen Kurenaido",
+  paddingLeft: theme.spacing(2),
+}));
+
 const InternalLink: React.VFC<LinkProps> = ({ content }) => {
   return (
     // <ListItemButton
@@ -95,15 +101,16 @@ const InternalLink: React.VFC<LinkProps> = ({ content }) => {
     // >
     //   <ListItemText primary={content.title} />
     // </ListItemButton>
-    <p>{content.title}</p>
+    <ListItemButton
+      target="_blank"
+      component={"a"}
+      href={content.link}
+      key={content.title}
+    >
+      <CListItemText primary={content.title} />
+    </ListItemButton>
   );
 };
-
-const CListItemText = styled(ListItemText) (({ theme }) => ({
-  fontSize: '12px',
-  fontFamily: 'Zen Kurenaido',
-  paddingLeft: theme.spacing(2),
-}))
 
 const ExternalLink: React.VFC<LinkProps> = ({ content }) => {
   return (
@@ -120,7 +127,7 @@ const ExternalLink: React.VFC<LinkProps> = ({ content }) => {
 
 const ContainerGrid = styled(Grid)(({ theme }) => ({
   marginTop: "auto",
-  width: "100%",
+  width: "80%",
   justifyContent: "space-evenly",
   alignItems: "start",
 }));
@@ -128,19 +135,18 @@ const ContainerGrid = styled(Grid)(({ theme }) => ({
 const ItemGrid = styled(Grid)(({ theme }) => ({
   alignItems: "center",
   textAlign: "center",
-  [theme.breakpoints.between('mobile', 'tablet')]: {
+  [theme.breakpoints.between("mobile", "tablet")]: {
     width: "100%",
   },
-  [theme.breakpoints.between('tablet', 'laptop')]: {
+  [theme.breakpoints.between("tablet", "laptop")]: {
     width: "50%",
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
-  [theme.breakpoints.up('laptop')]: {
-   width: "25%",
-   padding: theme.spacing(1)
-  }
+  [theme.breakpoints.up("laptop")]: {
+    width: "25%",
+    padding: theme.spacing(1),
+  },
 }));
-
 
 const Footer = React.memo(() => {
   const [open, setOpen] = useState([false, false, false]);
@@ -153,43 +159,39 @@ const Footer = React.memo(() => {
   return (
     <ThemeProvider theme={theme}>
       <ContainerGrid container>
-        
-          <ItemGrid item p={2}>
-            <img src={Logo} width="150px" height="150px" alt="Logo" />
+        <ItemGrid item p={2}>
+          <img src={Logo} width="150px" height="150px" alt="Logo" />
+        </ItemGrid>
+        {listItems.map((listItem: IListItem) => (
+          <ItemGrid item>
+            <List sx={{ display: { mobile: "none", tablet: "block" } }}>
+              <ListItem key={listItem.title}>
+                <Typography variant="body1" pl={4}>{listItem.title}</Typography>
+              </ListItem>
+              {listItem.contents.map((item) =>
+                item.external ? (
+                  <ExternalLink content={item} />
+                ) : (
+                  <InternalLink content={item} />
+                )
+              )}
+            </List>
           </ItemGrid>
-          {listItems.map((listItem: IListItem) => (
-            <ItemGrid item>
-              <List sx={{ display: { mobile: "none", tablet: "block" } }}>
-                <ListItem key={listItem.title}>
-                  <Typography variant="h6">{listItem.title}</Typography>
-                </ListItem>
-                {listItem.contents.map((item) =>
-                  item.external ? (
-                    <ExternalLink content={item} />
-                  ) : (
-                    <InternalLink content={item} />
-                  )
-                )}
-              </List>
-            </ItemGrid>
-          ))}
+        ))}
 
         <List
           sx={{
             width: "100%",
             maxWidth: 360,
             display: { mobile: "block", tablet: "none" },
-            pb: {mobile: 3, tablet: 0}
+            pb: { mobile: 3, tablet: 0 },
           }}
           component="nav"
         >
           {listItems.map((listItem, index: number) => (
             <>
-              <ListItemButton
-                onClick={handleClick(index)}
-                sx={{ borderBottom: "1px solid #aaa" }}
-              >
-                <CListItemText primary={listItem.title} />
+              <ListItemButton onClick={handleClick(index)}>
+                <ListItemText primary={listItem.title} />
                 {open[index] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
 
