@@ -1,27 +1,19 @@
-import React from 'react';
-import {Wrapper} from '../style/Wrapper'
+import React from "react";
+import { Wrapper } from "../styles/Wrapper";
 
-import Paper from '@mui/material/Paper';
-
-// type Book = {
-//     title: string,
-//     author: string,
-//     price: number,
-// }
-
-// type IndexProps = {
-//     book: Book
-// }
-
+import { ReactComponent as AboveWave } from "../Assets/wave/wave001.svg";
+import { ReactComponent as BelowWave } from "../Assets/wave/wave002.svg";
 
 const Index: React.VFC = () => {
-    return (
-        <Wrapper>
-            <Paper sx={{width: 500, height:700}}>
-                This is Hello
-            </Paper>
-        </Wrapper>
-    )
-}
+  return (
+    <Wrapper>
+      <AboveWave />
+      <h1 style={{ textAlign: "center" }}>Teelog</h1>
+      <div>
+        <BelowWave />
+      </div>
+    </Wrapper>
+  );
+};
 
 export default Index;

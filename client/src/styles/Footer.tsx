@@ -99,6 +99,12 @@ const InternalLink: React.VFC<LinkProps> = ({ content }) => {
   );
 };
 
+const CListItemText = styled(ListItemText) (({ theme }) => ({
+  fontSize: '12px',
+  fontFamily: 'Zen Kurenaido',
+  paddingLeft: theme.spacing(2),
+}))
+
 const ExternalLink: React.VFC<LinkProps> = ({ content }) => {
   return (
     <ListItemButton
@@ -107,7 +113,7 @@ const ExternalLink: React.VFC<LinkProps> = ({ content }) => {
       href={content.link}
       key={content.title}
     >
-      <ListItemText primary={content.title} />
+      <CListItemText primary={content.title} />
     </ListItemButton>
   );
 };
@@ -117,23 +123,22 @@ const ContainerGrid = styled(Grid)(({ theme }) => ({
   width: "100%",
   justifyContent: "space-evenly",
   alignItems: "start",
-  background: theme.palette.primary.dark,
-  [theme.breakpoints.between('mobile', 'tablet')]: {
-    gap: 12,
-    background: theme.palette.primary.main
-  },
-  [theme.breakpoints.between('tablet', 'laptop')]: {
-    gap: 6,
-    background: theme.palette.secondary.light,
-  },
-  [theme.breakpoints.up('laptop')]: {
-    gap: 3
-  }
 }));
 
 const ItemGrid = styled(Grid)(({ theme }) => ({
   alignItems: "center",
   textAlign: "center",
+  [theme.breakpoints.between('mobile', 'tablet')]: {
+    width: "100%",
+  },
+  [theme.breakpoints.between('tablet', 'laptop')]: {
+    width: "50%",
+    padding: theme.spacing(2)
+  },
+  [theme.breakpoints.up('laptop')]: {
+   width: "25%",
+   padding: theme.spacing(1)
+  }
 }));
 
 
@@ -149,8 +154,8 @@ const Footer = React.memo(() => {
     <ThemeProvider theme={theme}>
       <ContainerGrid container>
         
-          <ItemGrid item>
-            <img src={Logo} width="200px" height="200px" alt="Logo" />
+          <ItemGrid item p={2}>
+            <img src={Logo} width="150px" height="150px" alt="Logo" />
           </ItemGrid>
           {listItems.map((listItem: IListItem) => (
             <ItemGrid item>
@@ -174,6 +179,7 @@ const Footer = React.memo(() => {
             width: "100%",
             maxWidth: 360,
             display: { mobile: "block", tablet: "none" },
+            pb: {mobile: 3, tablet: 0}
           }}
           component="nav"
         >
@@ -181,9 +187,9 @@ const Footer = React.memo(() => {
             <>
               <ListItemButton
                 onClick={handleClick(index)}
-                sx={{ borderBottom: "1px solid" }}
+                sx={{ borderBottom: "1px solid #aaa" }}
               >
-                <ListItemText primary={listItem.title} />
+                <CListItemText primary={listItem.title} />
                 {open[index] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
 
